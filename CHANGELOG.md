@@ -1,16 +1,11 @@
 <!--
 	Markdown
 -->
-<!--
-Changelog template:
 
-## Revision (YYYY-mm-dd)
+## 1.0.2 (2016-11-10)
 Features:
-  * List here the new features.
-  
-Bugfixes:
-  * List here the bug fixes.
--->
+  * Some small wording changes.
+  * Move options to a separated interface.
 
 ## 1.0.1 (2016-10-28)
 Features:

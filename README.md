@@ -3,6 +3,7 @@
 	Copyright 2016 IS2T. All rights reserved.
 	IS2T PROPRIETARY. Use is subject to license terms.
 -->
+
 # Overview
 This project is a tool to list all dependencies of a Java code and to discover the missing dependencies of this Java code against MicroEJ OS.
 
@@ -12,17 +13,21 @@ This project is a tool to list all dependencies of a Java code and to discover t
 2. Right click on **DependencyDiscoverer** project.
 3. Select **Run As -> Java Application**.
 4. Double click on **DependencyDiscoverer**.
-3. A **result.txt** file will be generated at the root of the project.
+5. Right click on **DependencyDiscoverer** project.
+6. Select Refresh
+7. A **result.txt** file will be generated at the root of the project.
 
 ## Offline
 1. Drop all your JARs into [classpath](classpath/) folder.
 2. Get a MicroEJ offline repository (zip archive). For example repository 4.0 from [developer.microej.com/4.0/ivy](http://developer.microej.com/4.0/ivy).
 3. Unzip MicroEJ repository into [againstClasspath](againstClasspath/) folder.
-4. Set `OFFLINE` variable in [DependencyDiscoverer.java](src/ej/tools/dependencydiscoverer/DependencyDiscoverer.java) to `true`.
+4. Set `OFFLINE` variable in [DependencyDiscovererOptions.java](src/ej/tools/dependencydiscoverer/DependencyDiscovererOptions.java) to `true`.
 5. Right click on **DependencyDiscoverer** project.
 6. Select **Run As -> Java Application**.
 7. Double click on **DependencyDiscoverer**.
-8. A **result.txt** file will be generated at the root of the project.
+8. Right click on **DependencyDiscoverer** project.
+9. Select Refresh
+10. A **result.txt** file will be generated at the root of the project.
 
 ## Adding additional MicroEJ libraries.
 You may have some additional MicroEJ libraries, to include them, drop them into [againstClasspath](againstClasspath) folder.
@@ -56,11 +61,11 @@ To port your library with missing dependencies to MicroEJ OS, the following step
 2. Refactor your libraries to avoid those dependencies.
 
 # Requirements
-* MicroEJ Studio 4.0 or later, or MicroEJ SDK4.0 or later, or Eclipse 4.2 or later.
+* MicroEJ Studio 4.0 or later, or MicroEJ SDK 4.0 or later, or Eclipse 4.2 or later.
 * A JRE 7 or higher.
 
 # Dependencies
-This project depends on [DependencyDiscoverer-2.0.4.jar](lib/DependencyDiscoverer-2.0.4.jar).
+None.
 
 # Source
 N/A
