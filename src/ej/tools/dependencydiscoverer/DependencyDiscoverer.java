@@ -25,13 +25,10 @@ import com.is2t.dd.DependencyDiscovererBatch;
  */
 public class DependencyDiscoverer {
 
-	private static final String MICROEJ_VERSION = "4.0";
-	private static final String REPOSITORY_URL = "http://developer.microej.com/" + MICROEJ_VERSION + "/ivy/microej-"
-			+ MICROEJ_VERSION + "-latest.zip";
-	private static final String REPO_NAME = "microej-" + MICROEJ_VERSION + "-repository";
+	private static final String REPOSITORY_URL = "http://developer.microej.com/" + DependencyDiscovererOptions.MICROEJ_VERSION + "/ivy/microej-"
+			+ DependencyDiscovererOptions.MICROEJ_VERSION + "-latest.zip";
+	private static final String REPO_NAME = "microej-" + DependencyDiscovererOptions.MICROEJ_VERSION + "-repository";
 	private static final String REPO_FILE_EXTENTION = ".zip";
-
-	private static final boolean OFFLINE = false;
 
 	/**
 	 * EntryPoint for the Dependency Discoverer.
@@ -46,7 +43,7 @@ public class DependencyDiscoverer {
 		File repoDir = FileUtils.mkDirs(basedir + File.separatorChar + REPO_NAME);
 		String outputFile = basedir+File.separatorChar+"result.txt";
 
-		if (!OFFLINE) {
+		if (!DependencyDiscovererOptions.OFFLINE) {
 			downloadRepository(repoDir);
 		}
 
@@ -78,7 +75,7 @@ public class DependencyDiscoverer {
 	}
 
 	private static File loadRepo(File repoDir, String repoName) {
-		System.out.println("Downloading latest repository for MicroEJ " + MICROEJ_VERSION + ".");
+		System.out.println("Downloading latest repository for MicroEJ " + DependencyDiscovererOptions.MICROEJ_VERSION + ".");
 		InputStream in = null;
 		File repo = null;
 		try {
