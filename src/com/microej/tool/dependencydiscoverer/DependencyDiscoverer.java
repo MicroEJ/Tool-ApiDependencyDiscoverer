@@ -4,7 +4,7 @@
  * Copyright 2013-2016 IS2T. All rights reserved.
  * IS2T PROPRIETARY. Use is subject to license terms.
  */
-package ej.tools.dependencydiscoverer;
+package com.microej.tool.dependencydiscoverer;
 
 import java.io.File;
 import java.io.FileFilter;
