@@ -1,9 +1,3 @@
-<!--
-	Markdown
-	Copyright 2016 IS2T. All rights reserved.
-	IS2T PROPRIETARY. Use is subject to license terms.
--->
-
 # Overview
 This project is a tool to list all dependencies of a Java code and to discover the missing dependencies of this Java code against MicroEJ OS.
 
@@ -21,7 +15,7 @@ This project is a tool to list all dependencies of a Java code and to discover t
 1. Drop all your JARs into [classpath](classpath/) folder.
 2. Get a MicroEJ offline repository (zip archive). For example repository 4.0 from [developer.microej.com/4.0/ivy](http://developer.microej.com/4.0/ivy).
 3. Unzip MicroEJ repository into [againstClasspath](againstClasspath/) folder.
-4. Set `OFFLINE` variable in [DependencyDiscovererOptions.java](src/ej/tools/dependencydiscoverer/DependencyDiscovererOptions.java) to `true`.
+4. Set `OFFLINE` variable in [DependencyDiscovererOptions.java](src/com/microej/tool/dependencydiscoverer/DependencyDiscovererOptions.java) to `true`.
 5. Right click on **DependencyDiscoverer** project.
 6. Select **Run As -> Java Application**.
 7. Double click on **DependencyDiscoverer**.

@@ -4,7 +4,7 @@
  * Copyright 2016 IS2T. All rights reserved.
  * IS2T PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
-package ej.tools.dependencydiscoverer;
+package com.microej.tool.dependencydiscoverer;
 
 /**
  * Define the options for the Dependency Discoverer.

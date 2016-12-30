@@ -3,4 +3,4 @@ result.txt
 againstClasspath/*
 classpath/*
 microej-4.0-repository/
-src/ej/tools/dependencydiscoverer/DependencyDiscovererOptions.java
+src/com/microej/tool/dependencydiscoverer/DependencyDiscovererOptions.java
