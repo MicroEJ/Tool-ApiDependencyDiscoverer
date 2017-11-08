@@ -14,7 +14,7 @@ public interface DependencyDiscovererOptions {
 	/**
 	 * MicroEJ repository version to download.
 	 */
-	String MICROEJ_VERSION = "4.0";
+	String MICROEJ_VERSION = "4.1";
 
 	/**
 	 * Whether the dependency discoverer tries to download the latest repository or not.

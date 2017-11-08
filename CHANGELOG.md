@@ -1,3 +1,7 @@
+## 2.0.1 (2017-10-16)
+Bugfixes:
+  * Update Repository version.
+  
 ## 2.0.0 (2016-12-29)
 Features:
   * Change organization.
