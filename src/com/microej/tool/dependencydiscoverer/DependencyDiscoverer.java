@@ -1,8 +1,9 @@
 /*
  * Java
  *
- * Copyright 2013-2016 IS2T. All rights reserved.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Copyright 2013-2020 MicroEJ Corp. All rights reserved.
+ * This library is provided in source code for use, modification and test, subject to license terms.
+ * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
  */
 package com.microej.tool.dependencydiscoverer;
 
@@ -20,13 +21,12 @@ import com.is2t.dd.DependencyDiscovererBatch;
 
 
 /**
- * Tool that download the latest MicroEJ repository and dumps all unresolved dependencies of jars found in
+ * Tool that downloads the latest MicroEJ repository and dumps all unresolved dependencies of jars found in
  * <code>classpath</code> directory.
  */
 public class DependencyDiscoverer {
 
-	private static final String REPOSITORY_URL = "http://developer.microej.com/" + DependencyDiscovererOptions.MICROEJ_VERSION + "/ivy/microej-"
-			+ DependencyDiscovererOptions.MICROEJ_VERSION + "-latest.zip";
+	private static final String REPOSITORY_URL = "https://repository.microej.com/microej-" + DependencyDiscovererOptions.MICROEJ_VERSION + "-latest.zip";
 	private static final String REPO_NAME = "microej-" + DependencyDiscovererOptions.MICROEJ_VERSION + "-repository";
 	private static final String REPO_FILE_EXTENTION = ".zip";
 
@@ -75,7 +75,7 @@ public class DependencyDiscoverer {
 	}
 
 	private static File loadRepo(File repoDir, String repoName) {
-		System.out.println("Downloading latest repository for MicroEJ " + DependencyDiscovererOptions.MICROEJ_VERSION + ".");
+		System.out.println("Downloading repository for MicroEJ " + DependencyDiscovererOptions.MICROEJ_VERSION + ".");
 		InputStream in = null;
 		File repo = null;
 		try {
