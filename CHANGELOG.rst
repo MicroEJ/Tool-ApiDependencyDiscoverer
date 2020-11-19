@@ -12,6 +12,22 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
 ------------------
+2.2.0 - 2020-11-18
+------------------
+
+Added
+=======
+
+- XML output format (using `-outputType xml` option). The default output is still the textual format.
+- Listing of native methods (available in both textual and XML output formats).
+
+Fixed
+=====
+
+- Missing types only referenced by a `catch` clause.
+- Missing array dependencies used in `.class` notation.
+
+------------------
 2.1.0 - 2020-10-09
 ------------------
 
