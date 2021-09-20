@@ -1,0 +1,7 @@
+class org/objectweb/asm/tree/MethodNode
+desc
+ Ljava/lang/String;
+ L1java/lang/String;
+name
+ Ljava/lang/String;
+ L1java/lang/String;

@@ -1,0 +1,74 @@
+#YAML
+#
+#Copyright 2021 MicroEJ Corp. All rights reserved.
+#This library is provided in source code for use, modification and test, subject to license terms.
+#Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+name: GitHub Actions Ant and GraalVM build with release
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - develop
+      - master
+    tags:
+      - '[0-9]+\.[0-9]+\.[0-9]+'
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: windows-latest
+    steps:
+      - name: Set env for test branches (develop and features)
+        shell: bash
+        if: endsWith(github.ref, '/develop') || contains(github.ref, '/feature/')
+        run: |
+          echo "TAG=latest-snapshot" >> $GITHUB_ENV
+          echo "PRERELEASE=true" >> $GITHUB_ENV
+          echo "RELEASE-NAME=Development build" >> $GITHUB_ENV
+      - name: Set env for production
+        shell: bash
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          echo "PRERELEASE=false" >> $GITHUB_ENV
+          echo "RELEASE-NAME=Official release" >> $GITHUB_ENV
+          
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        
+      - run: cd ${{ github.workspace }}
+      - run: echo "🎉 Installs 🎉"
+      - name: Setup script
+        run: .\setup.bat
+      
+      - name: Build
+        run: |
+          echo $(ant -version)
+          ant -lib .\lib\compilation
+          .\build.bat
+        
+      - name: Computing checksum
+        run: |
+          echo "🎉 Computing cheksums 🎉"
+          cd target~
+          cd executables
+          sha256sum microejdd.jar > microejdd.jar.sha256
+          sha256sum microejdd.exe > microejdd.exe.sha256
+          ls -R
+          cd ..
+          cd ..
+
+      - run: echo "🎉 Deploy to release 🎉"
+      - name: release
+        id: create-release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') || endsWith(github.ref, '/develop') || contains(github.ref, '/feature/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          prerelease: ${{env.PRERELEASE}}
+          name: ${{env.RELEASE-NAME}}
+          tag_name: ${{env.TAG}}
+          files: |
+            target~/executables/*.exe
+            target~/executables/*.jar
+            target~/executables/*.sha256

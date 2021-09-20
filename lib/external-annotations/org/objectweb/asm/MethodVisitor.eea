@@ -1,0 +1,19 @@
+class org/objectweb/asm/MethodVisitor
+visitTypeInsn
+ (ILjava/lang/String;)V
+ (IL1java/lang/String;)V
+visitLdcInsn
+ (Ljava/lang/Object;)V
+ (L1java/lang/Object;)V
+visitMethodInsn
+ (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V
+ (IL1java/lang/String;L1java/lang/String;L1java/lang/String;Z)V
+visitFieldInsn
+ (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+ (IL1java/lang/String;L1java/lang/String;L1java/lang/String;)V
+visitLocalVariable
+ (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/objectweb/asm/Label;Lorg/objectweb/asm/Label;I)V
+ (L1java/lang/String;L1java/lang/String;L1java/lang/String;L0org/objectweb/asm/Label;L0org/objectweb/asm/Label;I)V
+visitTryCatchBlock
+ (Lorg/objectweb/asm/Label;Lorg/objectweb/asm/Label;Lorg/objectweb/asm/Label;Ljava/lang/String;)V
+ (L0org/objectweb/asm/Label;L0org/objectweb/asm/Label;L0org/objectweb/asm/Label;L0java/lang/String;)V

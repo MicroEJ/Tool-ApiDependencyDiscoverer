@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<!--
+   Ant
+
+   Copyright 2021 MicroEJ Corp. All rights reserved.
+   This library is provided in source code for use, modification and test, subject to license terms.
+   Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+-->
+<project name="Create runnable jar of microej's dependency discoverer and runs Junit tests " default="build-jar" basedir=".">
+
+	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+	<property name="ant.build.javac.source" value="1.8" />
+	<property name="ant.build.javac.target" value="1.8" />
+
+
+	<property name="build.dir" value="./target~">
+	</property>
+	<property name="main.build.dir" value="${build.dir}/bin" />
+	<property name="main.src.dir" value="src" />
+	<property name="test.dir" value="./test">
+	</property>
+	<property name="test.build.dir" value="${build.dir}/testpaths" />
+	<property name="test.src.dir" value="${test.dir}/testpaths" />
+	<property name="test.launcher.build.dir" value="${build.dir}/testcases" />
+	<property name="test.launcher.reports.dir" value="${build.dir}/reports" />
+	<property name="test.launcher.src.dir" value="${test.dir}/testcases/src" />
+	<property name="main.jar.build.dir" value="${build.dir}/executables" />
+	<property name="resources.dir" value="./resources" />
+
+
+
+	<path id="classpath.base">
+		<pathelement location="lib/asm-9.1.jar" />
+		<pathelement location="lib/asm-tree-9.1.jar" />
+		<pathelement location="lib/picocli-4.6.1.jar" />
+		<pathelement location="lib/ant-1.9.9.jar" />
+		<pathelement location="lib/external-annotations" />
+		<pathelement location="lib/org.eclipse.jdt.annotation_2.2.600.v20200408-1511.jar" />
+	</path>
+
+
+	<path id="junit">
+		<pathelement location="lib/junit-4.13.2.jar" />
+		<pathelement location="lib/hamcrest-core-1.3.jar" />
+	</path>
+
+	<path id="classpath.test.compile">
+		<pathelement location="${main.build.dir}" />
+		<pathelement location="${test.src.dir}" />
+		<path refid="classpath.base" />
+		<path refid="junit" />
+	</path>
+
+	<path id="classpath.test.against">
+		<pathelement location="${test.build.dir}/bin-compile" />
+		<path refid="classpath.test.compile" />
+		<path refid="junit" />
+	</path>
+
+	<path id="classpath.test">
+		<pathelement location="${test.build.dir}/bin-compile" />
+		<pathelement location="${test.build.dir}/bin-againstclasspath" />
+		<path refid="junit" />
+	</path>
+
+	<path id="classpath.test.launcher">
+		<pathelement location="${main.build.dir}" />
+		<pathelement location="${test.launcher.build.dir}" />
+		<path refid="classpath.base" />
+		<path refid="junit" />
+	</path>
+
+	<target name="cleanup">
+		<delete dir="${build.dir}"></delete>
+		<echo>"Cleanup done"</echo>
+	</target>
+		
+	<!-- Compile dependency discoverer java files  -->
+	<target name="compile-dd" depends="cleanup">
+		<mkdir dir="${main.build.dir}" />
+		<echo message="Build dd ..." />
+		<javac debug="true" srcdir="${main.src.dir}" destdir="${main.build.dir}" includeantruntime="false">
+			<classpath refid="classpath.base" />
+		</javac>
+		<echo message="Build dd done" />
+	</target>
+
+	<!-- Compile testpath compile java files  -->
+	<target name="compile-tests-compile" depends="compile-dd">
+		<mkdir dir="${test.build.dir}/bin-compile" />
+		<javac nowarn="on" srcdir="${test.src.dir}/src-compile" destdir="${test.build.dir}/bin-compile" includeantruntime="false">
+			<classpath refid="classpath.test.compile" />
+		</javac>
+		<echo message="Build tests compile done" />
+	</target>
+
+	<!-- Compile in testpath againstclasspath java files  -->
+	<target name="compile-tests-againstclasspath" depends="compile-tests-compile">
+		<mkdir dir="${test.build.dir}/bin-againstclasspath" />
+		<javac debug="true" nowarn="on" srcdir="${test.src.dir}/src-againstclasspath" destdir="${test.build.dir}/bin-againstclasspath" includeantruntime="false">
+			<classpath refid="classpath.test.against" />
+		</javac>
+		<echo message="Build tests against done" />
+	</target>
+
+	<!-- Compile in testpath classpath java files  -->
+	<target name="compile-tests" depends="compile-tests-againstclasspath">
+		<mkdir dir="${test.build.dir}/bin-classpath" />
+		<javac debug="true" nowarn="on" debuglevel="vars" srcdir="${test.src.dir}/src-classpath" destdir="${test.build.dir}/bin-classpath" includeantruntime="false">
+			<classpath refid="classpath.test" />
+		</javac>
+		<echo message="Build tests done" />
+	</target>
+	
+	<!-- Compile testsuite java files  -->
+	<target name="compile-launcher" depends="compile-tests">
+		<mkdir dir="${test.launcher.build.dir}" />
+		<javac debug="true" debuglevel="vars,lines,source"  srcdir="${test.launcher.src.dir}" destdir="${test.launcher.build.dir}" includeantruntime="false">
+			<classpath refid="classpath.test.launcher" />
+		</javac>
+		<echo message="Build tests launcher done" />
+	</target>
+
+	<!-- Test and build all files  -->
+	<!-- To run this: use "ant" (default) or "ant run" -->
+	<target name="run-test-class" depends="compile-launcher">
+		<mkdir dir="${test.launcher.reports.dir}"/>
+		<copy todir="${test.launcher.build.dir}">
+			<fileset dir="${resources.dir}" />
+		</copy>
+		<junit printsummary="on" haltonfailure="yes" dir="${test.launcher.build.dir}" fork="yes">
+			<classpath>
+				<path refid="classpath.test.launcher" />
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest todir="${test.launcher.reports.dir}">
+				<fileset dir="${test.launcher.src.dir}" includes="**/BuildTestSuite.java" />
+			</batchtest>
+		</junit>
+	</target>
+
+	<!-- Pack testpath compiled into jars  -->
+	<target name="testpath-class-to-jar" depends="run-test-class">
+		<jar destfile="${test.build.dir}/bin-compile/compile.jar">
+			<fileset dir="${test.build.dir}/bin-compile" includes="**/*.class"/> 
+		</jar>
+		<jar destfile="${test.build.dir}/bin-againstclasspath/againstclasspath.jar">
+			<fileset dir="${test.build.dir}/bin-againstclasspath" includes="**/*.class"/>
+		</jar>
+		<jar destfile="${test.build.dir}/bin-classpath/classpath.jar">
+			<fileset dir="${test.build.dir}/bin-classpath" includes="**/*.class"/>
+		</jar>
+	</target>
+	
+	<!-- delete testpath class files -->
+	<target name="delete-testpath-class-files" depends="testpath-class-to-jar">
+		<delete>
+		  <fileset dir="${test.build.dir}/bin-classpath" includes="**/*.class"/> 
+		</delete>
+		<echo>"Delete of classfiles done"</echo>
+	</target>
+	
+	<!-- Test and build all files  -->
+	<!-- To run this: use "ant" (default) or "ant run" -->
+	<target name="run-test-jar" depends="delete-testpath-class-files">
+		<copy todir="${test.launcher.build.dir}">
+			<fileset dir="${resources.dir}" />
+		</copy>
+		<junit printsummary="on" haltonfailure="yes" dir="${test.launcher.build.dir}" fork="yes">
+			<classpath>
+				<path refid="classpath.test.launcher" />
+			</classpath>
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${test.launcher.src.dir}" includes="**/BuildTestSuite.java" />
+			</batchtest>
+		</junit>
+	</target>
+
+
+	<!-- creating an executable jar file of the dependency discoverer -->
+	<target name="build-jar" depends="run-test-jar">
+		<mkdir dir="${main.jar.build.dir}" />
+		<jar destfile="${main.jar.build.dir}/microejdd.jar" basedir="${main.build.dir}" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="com.microej.tool.dependencydiscoverer.DependencyDiscovererCLI" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<zipfileset excludes="META-INF/*.SF" src="./lib/asm-9.1.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/asm-tree-9.1.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/picocli-4.6.1.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/org.eclipse.jdt.annotation_2.2.600.v20200408-1511.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/ant-1.9.9.jar" />
+			<fileset dir="./resources" />
+		</jar>
+		<echo message="Jar build done" />
+	</target>
+
+</project>

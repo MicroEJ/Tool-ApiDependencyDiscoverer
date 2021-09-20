@@ -1,0 +1,4 @@
+class java/util/Enumeration
+nextElement
+ ()TE;
+ ()T1E;

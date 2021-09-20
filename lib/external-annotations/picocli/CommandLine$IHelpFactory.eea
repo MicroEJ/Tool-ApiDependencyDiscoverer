@@ -1,0 +1,4 @@
+class picocli/CommandLine$IHelpFactory
+create
+ (Lpicocli/CommandLine$Model$CommandSpec;Lpicocli/CommandLine$Help$ColorScheme;)Lpicocli/CommandLine$Help;
+ (L1picocli/CommandLine$Model$CommandSpec;L1picocli/CommandLine$Help$ColorScheme;)L1picocli/CommandLine$Help;

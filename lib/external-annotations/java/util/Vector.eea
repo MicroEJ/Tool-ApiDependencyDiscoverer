@@ -1,0 +1,4 @@
+class java/util/Vector
+elements
+ ()Ljava/util/Enumeration<TE;>;
+ ()L1java/util/Enumeration<T1E;>;

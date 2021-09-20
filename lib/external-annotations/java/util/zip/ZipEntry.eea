@@ -1,0 +1,4 @@
+class java/util/zip/ZipEntry
+getName
+ ()Ljava/lang/String;
+ ()L1java/lang/String;

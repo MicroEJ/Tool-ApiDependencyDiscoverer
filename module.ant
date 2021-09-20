@@ -1,0 +1,38 @@
+<!--
+   Ant
+
+   Copyright 2021 MicroEJ Corp. All rights reserved.
+   This library is provided in source code for use, modification and test, subject to license terms.
+   Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+-->
+<project name="com.microej.tool;dependencydiscoverer" xmlns:ea="antlib:org.apache.easyant">
+
+	<!-- 
+		Override the module version from info.properties file
+		- ivy.revision property for correct publication
+		- module.ivy file for correct MicroEJ internal release tag creation  
+	-->
+	<loadproperties srcfile="resources/infos.properties" prefix="microejdd."/>
+	<fail unless="microejdd.version"/>
+	<script language="javascript">
+		project.setProperty("ivy.revision", project.getProperty("microejdd.version"));
+	</script>
+	<replace file="module.ivy" token="0.0.0" value="${microejdd.version}"/>
+	<echo message="Building MicroEJ Dependency Discoverer version ${ivy.revision}"/>
+
+	<ea:plugin module="phases-std" revision="0.9" />
+	
+	<!-- Launch artifact-checker plugin during packaging step -->
+	<target name="bind-artifact-checker-plugin" depends="artifact-checker:check-current-module" extensionOf="package"/> 
+		
+	
+    <target name="dependencydiscoverer:build" extensionOf="package">
+    	<ant antfile="build.xml">
+    	
+    	</ant>
+    	<echoproperties></echoproperties>
+    	<copy todir="${target.artifacts}" file="${target}/executables/microejdd.jar"></copy>
+    	<ea:registerartifact type="jar" name="microejdd" conf="default"/>    
+    </target>
+
+</project>

@@ -1,0 +1,10 @@
+class java/util/logging/Level
+FINE
+ Ljava/util/logging/Level;
+ L1java/util/logging/Level;
+INFO
+ Ljava/util/logging/Level;
+ L1java/util/logging/Level;
+WARNING
+ Ljava/util/logging/Level;
+ L1java/util/logging/Level;

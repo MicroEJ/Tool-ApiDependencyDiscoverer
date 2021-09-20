@@ -1,0 +1,11 @@
+lib/ant-1.9.9.jar
+lib/dependencies.jar
+lib/asm-9.1.jar
+lib/asm-tree-9.1.jar
+lib/external-annotations.jar
+lib/hamcrest-core-1.3.jar
+lib/junit-4.13.2.jar
+lib/compilation/jdtCompilerAdapter.jar
+lib/compilation/org.eclipse.jdt.compiler.apt.jar
+lib/compilation/org.eclipse.jdt.core.jar
+doc/activity-diagrams.png

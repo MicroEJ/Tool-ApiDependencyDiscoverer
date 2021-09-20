@@ -1,0 +1,132 @@
+' Copyright 2021 MicroEJ Corp. All rights reserved.
+' This library is provided in source code for use, modification and test, subject to license terms.
+' Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+
+@startuml
+
+start
+
+:Classpath Selection;
+
+if (`-c` option set) then (yes)
+  :Append all directories and `.jar` files 
+  in the order they are declared
+  (separated with OS file.separator: 
+  `;` on Windows, `:` on Unix);
+else (no)
+	if (`./classpath` directory exists) then (yes)
+		 :Append all `.jar` files of `./classpath` directory;
+	else (no)
+	  	#ee502e:ERROR: provide classpath;
+  		kill
+	endif
+endif
+
+:Classpath Selected;
+
+stop
+
+start 
+
+:Provided Classpath Selection;
+
+if (`./providedClasspath` directory exists) then (yes)
+   :Append all `.jar` files of `./providedClasspath` directory;
+endif
+
+if (`-repositoryXXX` option set) then (yes)
+	if (exclusive `-repositoryXXX` option) then (yes)
+	else (no)
+	  #ee502e:ERROR: Options `-repositoryXXX` are exclusive;
+	  kill
+	endif
+else (no)
+  	:Set option 
+  	--repository-url=https://repository.microej.com/microej-5_0-latest.zip;
+endif
+
+if (`--repository-url` option set) then (yes)
+    if(--repository-url=none) then (yes)
+        :Provided Classpath set to empty;
+        note left
+			Consider as if the public option
+			`--repository-file` is set
+		end note	
+    else (no)
+		if(Valid URL) then (yes)
+		 	:Download the repository according to cache policy;
+			note left
+				Consider as if the public option
+				`--repository-file` is set
+			end note			
+		else (no)
+		  #ee502e:ERROR: 
+		  Invalid URL;
+	      kill
+		endif
+	endif
+endif
+
+if (`--repository-file` option set) then (yes)
+	if(Valid ZIP) then (yes)
+		:Extract the repository according to cache policy;
+		note left
+			Consider as if the public option 
+			`--repository-dir` is set
+		end note			
+	else (no)
+	  #ee502e:ERROR: 
+	  Invalid Repository (not a ZIP file);
+	  kill
+	endif
+endif
+
+if (`--repository-dir` option set) then (yes)
+	if(Valid directory) then (yes)
+		:Append all `.jar` files of `--repository-dir` directory;	
+	else (no)
+	  #ee502e:ERROR: 
+	  Invalid Repository (directory does not exist);
+	  kill
+	endif  
+endif
+
+:Provided Classpath Selected;
+
+stop
+
+:Caching Policy Selection;
+
+if (`--clean-cache` option set) then (yes)
+	:Delete all files and directories named `./.microej/caches/dd-*`;
+endif
+
+if (`--repository-url` option set) then (yes)
+note left: https://github.com/sindresorhus/filenamify-url
+	if(`./.microej/caches/dd-[filenameified-url]` does not exists or creation date > 1 day) then (yes)
+	  :Download to a new temporary file;
+	  :Move temporary file to `./.microej/caches/dd-[filenameified-url]`;
+	endif
+endif
+
+if (`--repository-file` option set) then (yes)
+	if(`./.microej/caches/dd-[checksum-file]` does not exists) then (yes)
+	  :Extract to a new temporary directory;
+	  :Move temporary directory to `./.microej/caches/dd-[checksum-file]`;
+	  note left: Checksum can be SHA-1
+	endif
+endif
+
+if (`--repository-dir` option set) then (yes)
+	:Directory will be directly read with no copy;
+endif
+
+:Caching Policy Selected;
+
+
+start 
+
+stop
+
+
+@enduml

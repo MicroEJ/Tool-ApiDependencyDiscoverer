@@ -1,0 +1,16 @@
+class java/lang/String
+join
+ (Ljava/lang/CharSequence;Ljava/lang/Iterable<+Ljava/lang/CharSequence;>;)Ljava/lang/String;
+ (L1java/lang/CharSequence;L1java/lang/Iterable<+Ljava/lang/CharSequence;>;)L1java/lang/String;
+replace
+ (CC)Ljava/lang/String;
+ (CC)L1java/lang/String;
+replace
+ (Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+ (L1java/lang/CharSequence;L1java/lang/CharSequence;)L1java/lang/String;
+replaceFirst
+ (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ (L1java/lang/String;L1java/lang/String;)L1java/lang/String;
+substring
+ (II)Ljava/lang/String;
+ (II)L1java/lang/String;

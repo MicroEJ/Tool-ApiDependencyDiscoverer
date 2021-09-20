@@ -1,0 +1,4 @@
+class picocli/CommandLine$Help$Layout
+layout
+ (Lpicocli/CommandLine$Model$ArgSpec;[[Lpicocli/CommandLine$Help$Ansi$Text;)V
+ (L1picocli/CommandLine$Model$ArgSpec;[1[Lpicocli/CommandLine$Help$Ansi$Text;)V

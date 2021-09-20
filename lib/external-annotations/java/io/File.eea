@@ -1,0 +1,16 @@
+class java/io/File
+<init>
+ (Ljava/lang/String;)V
+ (L1java/lang/String;)V
+getAbsolutePath
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+getPath
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+listFiles
+ ()[Ljava/io/File;
+ ()[L1java/io/File;
+pathSeparator
+ Ljava/lang/String;
+ L1java/lang/String;

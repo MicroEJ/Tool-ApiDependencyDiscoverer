@@ -1,0 +1,10 @@
+class org/objectweb/asm/tree/ClassNode
+interfaces
+ Ljava/util/List<Ljava/lang/String;>;
+ Ljava/util/List<L1java/lang/String;>;
+methods
+ Ljava/util/List<Lorg/objectweb/asm/tree/MethodNode;>;
+ Ljava/util/List<L1org/objectweb/asm/tree/MethodNode;>;
+name
+ Ljava/lang/String;
+ L1java/lang/String;

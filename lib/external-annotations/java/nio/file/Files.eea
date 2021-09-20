@@ -1,0 +1,4 @@
+class java/nio/file/Files
+walkFileTree
+ (Ljava/nio/file/Path;Ljava/nio/file/FileVisitor<-Ljava/nio/file/Path;>;)Ljava/nio/file/Path;
+ (Ljava/nio/file/Path;Ljava/nio/file/FileVisitor<-L1java/nio/file/Path;>;)Ljava/nio/file/Path;
