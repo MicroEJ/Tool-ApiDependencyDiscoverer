@@ -9,3 +9,4 @@ lib/compilation/jdtCompilerAdapter.jar
 lib/compilation/org.eclipse.jdt.compiler.apt.jar
 lib/compilation/org.eclipse.jdt.core.jar
 doc/activity-diagrams.png
+test/testpaths/jar-classpath/test-java11-ModuleInfo/test.jar

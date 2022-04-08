@@ -1,9 +1,8 @@
 /*
  * Java
  *
- * Copyright 2013-2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2013-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer;
 
@@ -185,13 +184,12 @@ public class DependencyDiscovererCLI implements Callable<Integer> {
 		ArrayList<String> classpathVect = new ArrayList<>();
 		// add the classpath dir to analyze .class files
 		classpathVect.add(classpathDirFile.getAbsolutePath());
-		// add JARs files foudn in the classpath dir
+		// add JARs files found in the classpath dir
 		try {
 			getJars(classpathVect, classpathDirFile);
 		}catch(NullPointerException error) {
 			printPathError(classpathDirFile);
 		}
-
 
 		ArrayList<String> providedClasspathVect = new ArrayList<>();
 		if(providedClasspathDirFile!=null) {

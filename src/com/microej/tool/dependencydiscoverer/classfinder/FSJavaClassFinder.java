@@ -1,13 +1,13 @@
 /*
  * Java
  *
- * Copyright 2011-2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2011-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer.classfinder;
 
 import java.io.File;
+import java.util.HashMap;
 
 import com.microej.tool.dependencydiscoverer.filesystem.fs.FSDir;
 
@@ -19,11 +19,22 @@ import com.microej.tool.dependencydiscoverer.filesystem.fs.FSDir;
 public class FSJavaClassFinder extends JavaClassFinder {
 
 	/**
-	 * @param path directory containing Java element (package or class). Must be an existing directory
+	 * Cache Directory path to corresponding FSDir instance.
+	 */
+	private static final HashMap<String, FSDir> directoriesCache = new HashMap<>();
+
+	/**
+	 * @param path directory containing Java element (package or class). Must be an
+	 *             existing directory
 	 * @see File#isDirectory()
 	 */
 	@Override
 	protected void visit(File path) {
-		(new FSDir(path)).visitUsing(this);
+		FSDir directory = directoriesCache.get(path.getPath());
+		if (directory == null) {
+			directory = new FSDir(path);
+			directoriesCache.put(path.getPath(), directory);
+		}
+		directory.visitUsing(this);
 	}
 }

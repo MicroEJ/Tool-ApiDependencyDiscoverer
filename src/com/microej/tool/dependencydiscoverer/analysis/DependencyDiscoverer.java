@@ -1,9 +1,8 @@
 /*
  * Java
  *
- * Copyright 2013-2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2013-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer.analysis;
 
@@ -53,12 +52,12 @@ public class DependencyDiscoverer {
 	/**
 	 * Application classpath
 	 */
-	protected File @Nullable [] classpath;
+	protected @NonNull File @Nullable [] classpath;
 
 	/**
 	 * Classpath on which the application is running against
 	 */
-	protected File @Nullable [] againstClasspath;
+	protected @NonNull File @Nullable [] againstClasspath;
 
 	//
 	private final HashMap<String, TypeDependency> typesDependencies;
@@ -132,7 +131,8 @@ public class DependencyDiscoverer {
 			return;
 		}
 
-		File[] splitAndCheck = splitAndCheck(classpathStr);
+		@NonNull
+		File @Nullable [] splitAndCheck = splitAndCheck(classpathStr);
 		classpath = splitAndCheck;
 		againstClasspath = splitAndCheck(localOptions.getAgainstClasspath());
 
@@ -186,12 +186,13 @@ public class DependencyDiscoverer {
 			loadedClassNodes.put(c.name, loadedClassNode);
 
 			// add hierarchy dependencies
-			assert (c.superName != null);
 			String superClassName = c.superName;
 
+			if (superClassName != null) {
+				addTypeDependency(superClassName, loadedClassNode);
+			}
 			List<@NonNull String> interfacesName = c.interfaces;
 			assert (interfacesName != null);
-			addTypeDependency(superClassName, loadedClassNode);
 			for (String interfaceName : interfacesName) {
 				addTypeDependency(interfaceName, loadedClassNode);
 			}
@@ -314,16 +315,16 @@ public class DependencyDiscoverer {
 	/**
 	 * Split classpath and check if classath elements exist.
 	 *
-	 * @param path May be null
+	 * @param path may be null
 	 */
-	private File[] splitAndCheck(@Nullable String path) {
+	private @NonNull File[] splitAndCheck(@Nullable String path) {
 		if (path == null) {
 			return new File[0];
 		}
 		String pathSeparator = File.pathSeparator;
 		assert (pathSeparator != null);
 		String[] splitStr = splitRemoveEmpty(path, pathSeparator);
-		ArrayList<File> resultVect = new ArrayList<>();
+		ArrayList<@NonNull File> resultVect = new ArrayList<>();
 		for (String pathStr : splitStr) {
 			pathStr = pathStr.trim();
 			assert (pathStr != null);
@@ -334,7 +335,8 @@ public class DependencyDiscoverer {
 			}
 			resultVect.add(f);
 		}
-		File[] array = resultVect.toArray(new File[resultVect.size()]);
+		@NonNull
+		File[] array = resultVect.toArray(new @NonNull File[resultVect.size()]);
 		assert (array != null);
 		return array;
 
@@ -364,7 +366,7 @@ public class DependencyDiscoverer {
 	}
 
 	@Nullable
-	private AnalyzedClassfile loadClassfile(File[] classpath, String typeName) {
+	private AnalyzedClassfile loadClassfile(@NonNull File[] classpath, String typeName) {
 
 		AnalyzedClassfile loadedClassfile = loadedClassNodes.get(typeName);
 		if (loadedClassfile != null) {
@@ -378,7 +380,7 @@ public class DependencyDiscoverer {
 		return c;
 	}
 
-	private @Nullable AnalyzedClassfile loadClassfilePart2(File[] classpath,
+	private @Nullable AnalyzedClassfile loadClassfilePart2(@NonNull File[] classpath,
 			ExactClassfileFilter filter) {
 		HashMap<String, ClassNode> classFileContainer = new HashMap<>();
 		try {
@@ -421,14 +423,19 @@ public class DependencyDiscoverer {
 		typesDependencies.put(type, dep);
 
 		// find type
+		@NonNull
 		File[] localClasspath = this.classpath;
 		assert (localClasspath != null);
 		AnalyzedClassfile classfile = loadClassfile(localClasspath, type);
 		if (classfile == null) {
 			// type not found
 			// try to load it from againstClasspath
-			assert (againstClasspath != null);
-			classfile = loadClassfile(againstClasspath, type);
+
+			@NonNull
+			File[] localAgainstClasspath = againstClasspath;
+			if (localAgainstClasspath != null) {
+				classfile = loadClassfile(localAgainstClasspath, type);
+			}
 			if (classfile == null) {
 				dep.setState(Dependency.STATE_NOT_FOUND);
 			} else {

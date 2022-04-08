@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
-			<attribute name="annotationpath" value="lib/external-annotations"/>
+			<attribute name="annotationpath" value="/DependencyDiscoverer/lib/external-annotations"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/ant-1.9.9.jar"/>

@@ -1,8 +1,7 @@
 REM shell
 REM
-REM Copyright 2021 MicroEJ Corp. All rights reserved.
-REM This library is provided in source code for use, modification and test, subject to license terms.
-REM Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+REM Copyright 2021-2022 MicroEJ Corp. All rights reserved.
+REM Use of this source code is governed by a BSD-style license that can be found with this software.
 
 REM Sets variables related to graalVM and Java version, may be edited to test more recent java version build (like 11)
 REM Needs to be called for every jobs because theirs variables are independant.
@@ -17,10 +16,8 @@ SET "graalInstallDir=C:\Programmes\Java\"
 
 REM PATH
 
-setx /M PATH "%graalInstallDir%%graalVMName%\bin\;%PATH%"
+set "PATH+GRAALVM=%graalInstallDir%%graalVMName%\bin\"
 
 REM JAVA_HOME 
 
-setx /M JAVA_HOME "%graalInstallDir%%graalVMName%"
-
-call RefreshEnv.cmd
+set "JAVA_HOME=%graalInstallDir%%graalVMName%"

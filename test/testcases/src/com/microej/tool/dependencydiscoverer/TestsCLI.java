@@ -1,9 +1,8 @@
 /*
  * Java
  *
- * Copyright 2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2021-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer;
 
@@ -82,9 +81,15 @@ public class TestsCLI {
 		displayStringTab(expected);
 		System.out.println(" RESULT :");
 		displayStringTab(result);
-		assert (expected.length == result.length);
+		for (String e : expected) {
+			System.out.println(e);
+		}
+		for (String r : result) {
+			System.out.println(r);
+		}
+		Assert.assertEquals("Expected and result don't have the same length", expected.length , result.length);
 		for (int i = 0; i < expected.length; i++) {
-			assert (expected[i].equals(result[i]));
+			Assert.assertEquals("Expected and result don't match", expected[i], result[i]);
 		}
 	}
 
@@ -170,8 +175,8 @@ public class TestsCLI {
 		File testFileInDir = new File(testDir, "testFileInDir.txt");
 		testDir.mkdir();
 		try {
-			assert (testFile.createNewFile());
-			assert (testFileInDir.createNewFile());
+			Assert.assertTrue(testFile.createNewFile());
+			Assert.assertTrue(testFileInDir.createNewFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -181,7 +186,7 @@ public class TestsCLI {
 
 		runTestRedirectedLogs(arguments);
 		printHeader("Assert on cache content", '-');
-		assert (new File(cacheDirPath).listFiles().length == 0);
+		Assert.assertTrue(new File(cacheDirPath).listFiles().length == 0);
 		System.out.println("The provided cache directory has been emptied");
 	}
 
@@ -192,9 +197,9 @@ public class TestsCLI {
 		File testZipInDir = new File(testDir, "testZip.zip");
 		File fileToZip = new File(ddHome + HOME_TO_TEST_CLASSES + "/B.class");
 
-		assert (testDir.mkdir());
-		assert (wrapInZip(fileToZip, testJarInDir));
-		assert (wrapInZip(testJarInDir, testZipInDir));
+		Assert.assertTrue(testDir.mkdir());
+		Assert.assertTrue(wrapInZip(fileToZip, testJarInDir));
+		Assert.assertTrue(wrapInZip(testJarInDir, testZipInDir));
 
 		String[] arguments = new String[] { "-D", projectDirPath, CACHE_DIR, testDir.getPath(),
 				"--repository-file",
@@ -213,7 +218,7 @@ public class TestsCLI {
 		File fileToZip = new File(ddHome + HOME_TO_TEST_CLASSES + "/B.class");
 		testRepoDir.mkdir();
 
-		assert (wrapInZip(fileToZip, testJarInDir));
+		Assert.assertTrue(wrapInZip(fileToZip, testJarInDir));
 
 		String[] arguments = new String[] { "-D", projectDirPath, CACHE_DIR, cacheDirPath, REPOSITORY_DIR,
 				testRepoDir.toString() };
@@ -247,9 +252,9 @@ public class TestsCLI {
 		classpathDir.mkdir();
 		cacheDirFile.mkdirs();
 
-		assert (wrapInZip(fileProvidedClasspathToJar, providedClasspathJarInDir));
-		assert (wrapInZip(fileClasspathToJar, classpathJarInDir));
-		assert (wrapInZip(fileRepoClasspathToJar, repoClasspathJarInDir));
+		Assert.assertTrue(wrapInZip(fileProvidedClasspathToJar, providedClasspathJarInDir));
+		Assert.assertTrue(wrapInZip(fileClasspathToJar, classpathJarInDir));
+		Assert.assertTrue(wrapInZip(fileRepoClasspathToJar, repoClasspathJarInDir));
 
 		String[] arguments = new String[] { "-D", projectDirPath, REPOSITORY_DIR, cacheDirFile.toString() };
 		String[] optionsList = new String[] { providedClasspathJarInDir + File.pathSeparator + repoClasspathJarInDir,
@@ -278,9 +283,9 @@ public class TestsCLI {
 		providedClasspathDir.mkdirs();
 		classpathDir.mkdir();
 
-		assert (wrapInZip(fileProvidedClasspathToJar, providedClasspathJarInDir));
-		assert (wrapInZip(fileClasspathToJar, classpathJarInDir));
-		assert (wrapInZip(fileRepoClasspathToJar, repoClasspathJarInDir));
+		Assert.assertTrue(wrapInZip(fileProvidedClasspathToJar, providedClasspathJarInDir));
+		Assert.assertTrue(wrapInZip(fileClasspathToJar, classpathJarInDir));
+		Assert.assertTrue(wrapInZip(fileRepoClasspathToJar, repoClasspathJarInDir));
 
 		String[] arguments = new String[] { "-D", projectDirPath, REPOSITORY_DIR,
 				cacheDir.getAbsolutePath(), "-c",
@@ -305,7 +310,9 @@ public class TestsCLI {
 
 		classpathDir.mkdirs();
 
-		assert (wrapInZip(fileClasspathToJar, classpathJarInDir));
+		Assert.assertTrue(wrapInZip(fileClasspathToJar, classpathJarInDir));
+
+		System.out.println("jar exist " + classpathJarInDir.exists());
 
 		String[] arguments = new String[] { REPOSITORY_URL, "none", "-D", projectDirPath, "-c",
 				classpathDir.getPath(), "-r", resultPath };
@@ -399,7 +406,7 @@ public class TestsCLI {
 	private boolean wrapInZip(File fileToZip, File targetFile) {
 
 		try {
-			assert (targetFile.createNewFile());
+			Assert.assertTrue(targetFile.createNewFile());
 			FileInputStream fis = new FileInputStream(fileToZip);
 			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(targetFile));
 			ZipEntry e = new ZipEntry(fileToZip.getName());

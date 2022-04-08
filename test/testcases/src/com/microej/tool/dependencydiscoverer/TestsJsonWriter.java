@@ -1,9 +1,8 @@
 /*
  * Java
  *
- * Copyright 2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2021-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer;
 
@@ -34,7 +33,6 @@ public class TestsJsonWriter {
 	private static final String FIELD = "\"field\"";
 	private static final String TYPE = "\"type\"";
 	private static final String METHOD = "\"method\"";
-	private static final String NATIVE_METHOD = "\"method native\"";
 
 	private static final String OBJECT_TYPE_DECODE = Object.class.getName();
 	private static final String OBJECT_TYPE = dotNametoSlashName(OBJECT_TYPE_DECODE);
@@ -142,6 +140,18 @@ public class TestsJsonWriter {
 		+ jsonDependency(methodName)
 		+ JSON_DEPENDENCIES_END_LAST
 		+ JSON_END;
+		assertJsonOutput(deps);
+	}
+
+	@Test
+	public void testMethodDepTwoArgsArrayOfPrimitiveTypePrimitiveType() {
+		String mName = "hashCode";
+		methodsDep.add(createMethodDependency(STRING_TYPE, mName, "([II)I"));
+		writeDependencies();
+
+		String methodName = STRING_TYPE_DECODE + "." + mName + "(int[],int)int";
+		String deps = JSON_START + jsonDependenciesStart(METHOD) + jsonDependency(methodName)
+		+ JSON_DEPENDENCIES_END_LAST + JSON_END;
 		assertJsonOutput(deps);
 	}
 

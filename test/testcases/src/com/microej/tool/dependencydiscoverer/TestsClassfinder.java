@@ -1,9 +1,8 @@
 /*
  * Java
  *
- * Copyright 2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2021-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer;
 
@@ -20,6 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,9 +68,9 @@ public class TestsClassfinder {
 	}
 
 	private void assertOnArrays(String[] expectedClasses, ArrayList<String> resultClasses) {
-		assert (expectedClasses.length == resultClasses.size());
+		Assert.assertTrue (expectedClasses.length == resultClasses.size());
 		for (int i = 0; i < resultClasses.size(); i++) {
-			assert (expectedClasses[i]).equals(resultClasses.get(i));
+			Assert.assertEquals(expectedClasses[i], resultClasses.get(i));
 		}
 	}
 
@@ -126,9 +126,9 @@ public class TestsClassfinder {
 		providedClasspathDir.mkdirs();
 		classpathDir.mkdir();
 
-		assert (wrapInZip(fileProvidedClasspathToJar, providedClasspathJarInDir));
-		assert (wrapInZip(fileClasspathToJar, classpathJarInDir));
-		assert (wrapInZip(cToJar, cJarInDir));
+		Assert.assertTrue(wrapInZip(fileProvidedClasspathToJar, providedClasspathJarInDir));
+		Assert.assertTrue(wrapInZip(fileClasspathToJar, classpathJarInDir));
+		Assert.assertTrue(wrapInZip(cToJar, cJarInDir));
 	}
 
 	@Test
@@ -275,7 +275,7 @@ public class TestsClassfinder {
 	private boolean wrapInZip(File fileToZip, File targetFile) {
 
 		try {
-			assert (targetFile.createNewFile());
+			Assert.assertTrue(targetFile.createNewFile());
 			FileInputStream fis = new FileInputStream(fileToZip);
 			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(targetFile));
 			ZipEntry e = new ZipEntry(fileToZip.getName());

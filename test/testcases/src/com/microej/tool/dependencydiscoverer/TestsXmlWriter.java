@@ -1,9 +1,8 @@
 /*
  * Java
  *
- * Copyright 2014-2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2014-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer;
 
@@ -259,6 +258,17 @@ public class TestsXmlWriter {
 		assertXmlOutPutList("", deps);
 	}
 
+	@Test
+	public void testMethodDepTwoArgsArrayOfPrimitiveTypePrimitiveType() {
+		String mName = "hashCode";
+		methodsDep.add(createMethodDependency(STRING_TYPE, mName, "([II)"));
+		writeDependencies();
+
+		String methodName = STRING_TYPE_DECODE + '.' + mName + "(int[],int)";
+		List<String> deps = new ArrayList<String>();
+		deps.add(String.format("<method name=\"%s\"/>" + LINE_SEP, methodName));
+		assertXmlOutPutList("", deps);
+	}
 
 
 	private String getExpected (List<String> deps) {

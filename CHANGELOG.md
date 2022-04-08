@@ -5,7 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 3.0.0 - 2021-09-20
+## 3.1.0 - 2022-04-08
+
+### Added
+
+-   Add link in documentation to `kxml-2.3.0` dependencies listing.
+
+### Changed
+
+-   Change license terms to MicroEJ Corp. BSD-style license.
+-   Tests that don't need to be done when the classpath is packed in a jar file are not longer launched.
+-   Every recursive find operations are now cached to increase analysis speed.
+-   Writers factorized around a serializer.
+
+### Fixed
+
+-   Fix crash when classpath contains a `module-info.class` file.
+-   Fix type descriptor name separator in documentation (`/` instead of `.`).
+-   Fix test that where using `assert` instead of the `Assert` class.
+
+## 3.0.0 - 2021-09-01
 
 ### Changed
 
@@ -75,8 +94,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Initial revision.
 
 ----
-Copyright 2016-2021 MicroEJ Corp. All rights reserved.  
-This library is provided in source code for use, modification and test, subject to license terms.  
-Any modification of the source code will break MicroEJ Corp. warranties on the whole library.  
-
+Copyright 2016-2022 MicroEJ Corp. All rights reserved.  
+Use of this source code is governed by a BSD-style license that can be found with this software.
 

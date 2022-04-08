@@ -74,23 +74,23 @@ Now, run again with no repository:
 
     .\microejdd.exe --repository-url=none
 
-The file named `result.txt` is overwritten and contains the list of all
+The file named [result.txt](doc/result.txt) is overwritten and contains the list of all
 unresolved dependencies required by this library.
 
 ## Interpreting the Results
 
-Open the file named `result.txt` with a text editor. Each line contains an
+Open the file named [result.txt](doc/result.txt) with a text editor. Each line contains an
 unresolved dependency:
 
-- A **class** described as `package.of.class.Class`.
+- A **class** described as `package/of/class/Class`.
 - An **inner class** described as
-    `package.of.class.Class$InnerClassName` (InnerClassName is a number
+    `package/of/class/Class$InnerClassName` (InnerClassName is a number
     if it is an anonymous class).
-- A **field** described as `package.of.class.Class.fieldName`.
+- A **field** described as `package/of/class/Class.fieldName`.
 - A **constructor** described as
-    `package.of.class.Class.<init>({parameters types see under})V`.
+    `package/of/class/Class.<init>({parameters types see under})V`.
 - A **method** described as
-    `package.of.class.Class.methodName({parameters types see under}){return type}`.
+    `package/of/class/Class.methodName({parameters types see under}){return type}`.
 
 Types are represented with the classfile format notation:
 
@@ -233,6 +233,5 @@ Now, set command line options as follows:
 None.
 
 ----
-Copyright 2016-2021 MicroEJ Corp. All rights reserved.  
-This library is provided in source code for use, modification and test, subject to license terms.  
-Any modification of the source code will break MicroEJ Corp. warranties on the whole library.  
+Copyright 2016-2022 MicroEJ Corp. All rights reserved.  
+Use of this source code is governed by a BSD-style license that can be found with this software. 

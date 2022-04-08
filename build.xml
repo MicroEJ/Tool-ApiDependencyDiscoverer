@@ -2,28 +2,34 @@
 <!--
    Ant
 
-   Copyright 2021 MicroEJ Corp. All rights reserved.
-   This library is provided in source code for use, modification and test, subject to license terms.
-   Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+   Copyright 2021-2022 MicroEJ Corp. All rights reserved.
+   Use of this source code is governed by a BSD-style license that can be found with this software.
 -->
 <project name="Create runnable jar of microej's dependency discoverer and runs Junit tests " default="build-jar" basedir=".">
 
 	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+	
 	<property name="ant.build.javac.source" value="1.8" />
 	<property name="ant.build.javac.target" value="1.8" />
 
+	<property name="microej.javac.source" value="1.7" />
+	<property name="microej.javac.target" value="1.7" />
 
-	<property name="build.dir" value="./target~">
-	</property>
+	<property name="build.dir" value="./target~"/>
 	<property name="main.build.dir" value="${build.dir}/bin" />
 	<property name="main.src.dir" value="src" />
-	<property name="test.dir" value="./test">
-	</property>
+	
+	<property name="test.dir" value="./test"/>
 	<property name="test.build.dir" value="${build.dir}/testpaths" />
 	<property name="test.src.dir" value="${test.dir}/testpaths" />
+	
+	<property name="test.jar.src.dir" value="${test.dir}/test" />
+	
 	<property name="test.launcher.build.dir" value="${build.dir}/testcases" />
 	<property name="test.launcher.reports.dir" value="${build.dir}/reports" />
+	<property name="test.launcher.reports.dir.jar" value="${test.launcher.reports.dir}/jar" />
 	<property name="test.launcher.src.dir" value="${test.dir}/testcases/src" />
+	
 	<property name="main.jar.build.dir" value="${build.dir}/executables" />
 	<property name="resources.dir" value="./resources" />
 
@@ -37,7 +43,6 @@
 		<pathelement location="lib/external-annotations" />
 		<pathelement location="lib/org.eclipse.jdt.annotation_2.2.600.v20200408-1511.jar" />
 	</path>
-
 
 	<path id="junit">
 		<pathelement location="lib/junit-4.13.2.jar" />
@@ -93,20 +98,29 @@
 		</javac>
 		<echo message="Build tests compile done" />
 	</target>
-
+	
 	<!-- Compile in testpath againstclasspath java files  -->
 	<target name="compile-tests-againstclasspath" depends="compile-tests-compile">
 		<mkdir dir="${test.build.dir}/bin-againstclasspath" />
-		<javac debug="true" nowarn="on" srcdir="${test.src.dir}/src-againstclasspath" destdir="${test.build.dir}/bin-againstclasspath" includeantruntime="false">
+		<javac debug="true" nowarn="on" source="${microej.javac.source}" target="${microej.javac.target}" srcdir="${test.src.dir}/src-againstclasspath" destdir="${test.build.dir}/bin-againstclasspath" includeantruntime="false">
 			<classpath refid="classpath.test.against" />
 		</javac>
 		<echo message="Build tests against done" />
 	</target>
+	
+	<!-- Copy pre-compiled jars to test dir -->
+	<target name="copy-tests-pre-compiled-jars" depends="compile-tests-againstclasspath">
+			<mkdir dir="${test.build.dir}/jar-classpath" />
+			<copy todir="${test.build.dir}/jar-classpath" verbose="true">
+				<fileset dir="${test.src.dir}/jar-classpath" includes="**/*.jar"/>
+			</copy>
+			<echo message="Copy of pre-compiled test jars done" />
+	</target>
 
 	<!-- Compile in testpath classpath java files  -->
-	<target name="compile-tests" depends="compile-tests-againstclasspath">
+	<target name="compile-tests" depends="copy-tests-pre-compiled-jars">
 		<mkdir dir="${test.build.dir}/bin-classpath" />
-		<javac debug="true" nowarn="on" debuglevel="vars" srcdir="${test.src.dir}/src-classpath" destdir="${test.build.dir}/bin-classpath" includeantruntime="false">
+		<javac debug="true" nowarn="on" debuglevel="vars" source="${microej.javac.source}" target="${microej.javac.target}" srcdir="${test.src.dir}/src-classpath" destdir="${test.build.dir}/bin-classpath" includeantruntime="false">
 			<classpath refid="classpath.test" />
 		</javac>
 		<echo message="Build tests done" />
@@ -128,7 +142,8 @@
 		<copy todir="${test.launcher.build.dir}">
 			<fileset dir="${resources.dir}" />
 		</copy>
-		<junit printsummary="on" haltonfailure="yes" dir="${test.launcher.build.dir}" fork="yes">
+		<junit printsummary="on" dir="${test.launcher.build.dir}" fork="yes">
+			<jvmarg line="-ea"/>
 			<classpath>
 				<path refid="classpath.test.launcher" />
 			</classpath>
@@ -163,6 +178,7 @@
 	<!-- Test and build all files  -->
 	<!-- To run this: use "ant" (default) or "ant run" -->
 	<target name="run-test-jar" depends="delete-testpath-class-files">
+		<mkdir dir="${test.launcher.reports.dir.jar}"/>
 		<copy todir="${test.launcher.build.dir}">
 			<fileset dir="${resources.dir}" />
 		</copy>
@@ -170,13 +186,12 @@
 			<classpath>
 				<path refid="classpath.test.launcher" />
 			</classpath>
-			<formatter type="brief" usefile="false" />
-			<batchtest>
-				<fileset dir="${test.launcher.src.dir}" includes="**/BuildTestSuite.java" />
+			<formatter type="xml" />
+			<batchtest todir="${test.launcher.reports.dir.jar}">
+				<fileset dir="${test.launcher.src.dir}" includes="**/BuildTestSuiteJar.java" />
 			</batchtest>
 		</junit>
 	</target>
-
 
 	<!-- creating an executable jar file of the dependency discoverer -->
 	<target name="build-jar" depends="run-test-jar">

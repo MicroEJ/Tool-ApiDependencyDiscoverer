@@ -1,17 +1,18 @@
 /*
  * Java
  *
- * Copyright 2011-2021 MicroEJ Corp. All rights reserved.
- * This library is provided in source code for use, modification and test, subject to license terms.
- * Any modification of the source code will break MicroEJ Corp. warranties on the whole library.
+ * Copyright 2011-2022 MicroEJ Corp. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found with this software.
  */
 package com.microej.tool.dependencydiscoverer.classfinder;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
@@ -39,6 +40,11 @@ public abstract class JavaClassFinder extends RecursiveFileSystemVisitor {
 	protected @Nullable Map<String, ClassNode> classNodeData;
 
 	/**
+	 * HashMap of loaded FinderHolder
+	 */
+	private static final Map<String, FinderHolder> pathTypes = new HashMap<>();
+
+	/**
 	 * <p>
 	 * The Java class name filter to use while visiting the File system structure.<br>
 	 * Can't be <code>null</code>, if given filter is <code>null</code>, it is replaced by a {@link JavaClassfileNoFilter} instance.
@@ -57,6 +63,10 @@ public abstract class JavaClassFinder extends RecursiveFileSystemVisitor {
 	 * Visits the given path using a concrete {@link JavaClassFinder} instance
 	 * according to the kind of path.
 	 * <p>
+	 * <p>
+	 * For every File objects, will test once its type on disk and save it in a
+	 * cache variable for future accesses.
+	 * <p>
 	 * The pool variable is directly modified instead of returning it.
 	 *
 	 * @param pool                List where are added classfiles founds
@@ -68,30 +78,51 @@ public abstract class JavaClassFinder extends RecursiveFileSystemVisitor {
 	 * @throw {@link IllegalArgumentException} if the given path can't be handled by
 	 *        any concrete implementation
 	 */
-	public static void find(Map<String, ClassNode> pool, File[] classpath,
+	public static void find(Map<String, ClassNode> pool, @NonNull File[] classpath,
 			IJavaClassfileFilter javaClassNameFilter, ErrorHandler errorHandler)
 					throws IOException {
-		//if we know in which jar is the class we replace the classpath to search exclusively in the jar containing the class.
-
 
 		JavaClassFinder concreteJavaClassFinder;
 		int nPaths = classpath.length;
 		for (int i = -1; ++i < nPaths;) { // keep order, in classpath notion it may be important
 			File path = classpath[i];
 
-			if (path.isDirectory()) {
-				concreteJavaClassFinder = new FSJavaClassFinder();
-			} else if (path.isFile() && path.getName().endsWith(JAR_EXT)) {
-				concreteJavaClassFinder = new JarJavaClassFinder();
+			concreteJavaClassFinder = getFinderHolder(path).getJavaClassFinder();
+			if (concreteJavaClassFinder != null) {
+				concreteJavaClassFinder.concreteFind(path, javaClassNameFilter, pool);
 			} else {
 				// Invalid classpath entry
-				String absolutePath = path.getAbsolutePath();
+				String absolutePath = path.getPath();
 				assert (absolutePath != null);
 				errorHandler.addNoFile(new DependencyDiscovererError().invalidClasspath(absolutePath).setIsWarning(true));
-				continue;
 			}
-			concreteJavaClassFinder.concreteFind(path, javaClassNameFilter, pool);
 		}
+	}
+
+	/**
+	 * Get the FinderHolder of the given path from the cache if it already is
+	 * loaded. Else, it will create the appropriate finder and save it in the cache.
+	 *
+	 * @param path
+	 * @return pathType of the input path
+	 */
+	private static FinderHolder getFinderHolder(File path) {
+		@Nullable
+		FinderHolder type = pathTypes.get(path.getPath());
+		if(type==null) {
+			if (path.isDirectory()) {
+				type = new FinderHolder(new FSJavaClassFinder());
+			} else if (path.isFile() && path.getName().endsWith(JAR_EXT)) {
+				type = new FinderHolder(new JarJavaClassFinder());
+			} else {
+				type = new FinderHolder(null);
+			}
+			// type NonNull by construction
+			assert (type != null);
+			pathTypes.put(path.getPath(), type);
+		}
+		return type;
+
 	}
 
 	/**
@@ -177,5 +208,20 @@ public abstract class JavaClassFinder extends RecursiveFileSystemVisitor {
 		cr.accept(cn, 0);
 		return cn;
 	}
+
+}
+
+class FinderHolder {
+
+	private final @Nullable JavaClassFinder javaClassFinder;
+
+	public FinderHolder(@Nullable JavaClassFinder javaClassFinder) {
+		this.javaClassFinder = javaClassFinder;
+	}
+
+	public @Nullable JavaClassFinder getJavaClassFinder() {
+		return this.javaClassFinder;
+	}
+
 
 }
