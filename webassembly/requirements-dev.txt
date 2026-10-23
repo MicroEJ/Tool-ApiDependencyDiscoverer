@@ -1,0 +1,11 @@
+# Python
+#
+# Copyright 2024 MicroEJ Corp. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be found with this software.
+coverage==7.6.1
+pytest==8.3.2
+pytest-cov==5.0.0
+requests==2.32.3
+flake8==7.1.1
+black==24.8.0
+Flake8-pyproject==1.2.3

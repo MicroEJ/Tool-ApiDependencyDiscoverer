@@ -1,9 +1,13 @@
 # Overview
 
-MicroEJ Dependency Discoverer is a tool that lists unresolved
-dependencies (types, methods and fields) of a set of Java ARchive (JAR)
-files and `.class` files.
+MicroEJ Dependency Discoverer is a tool that lists dependencies for 
+[Java bytecode](https://en.wikipedia.org/wiki/Java_bytecode) (`.class` files) 
+or [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) (`.wasm` files).
 
+This document describes the usage of the tool for Java bytecode analysis.
+For WebAssembly analysis, please go to [webassembly/README.md](webassembly/README.md).
+
+The Dependency Discoverer lists unresolved types, methods and fields of a set of Java ARchive (JAR) files and `.class` files. 
 By default, the tool is configured to download the latest [MicroEJ
 Central Repository](https://developer.microej.com/central-repository/)
 and then lists only the missing dependencies.
@@ -233,5 +237,5 @@ Now, set command line options as follows:
 None.
 
 ----
-Copyright 2016-2022 MicroEJ Corp. All rights reserved.  
+Copyright 2016-2024 MicroEJ Corp. All rights reserved.  
 Use of this source code is governed by a BSD-style license that can be found with this software. 

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-10-23
+
+### Added
+
+-   Add the WebAssembly Dependency Discoverer 1.6.0, in the `webassembly` folder.
+
 ## 3.1.0 - 2022-04-08
 
 ### Added
@@ -94,6 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Initial revision.
 
 ----
-Copyright 2016-2022 MicroEJ Corp. All rights reserved.  
-Use of this source code is governed by a BSD-style license that can be found with this software.
+Copyright 2016-2026 MicroEJ Corp. All rights reserved.  
+Use of this source code is governed by a BSD-style license that can be found with this software.  
+Build: 7E4D1F7C
 

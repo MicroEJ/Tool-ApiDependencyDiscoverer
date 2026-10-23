@@ -1,0 +1,74 @@
+MicroEJ WebAssembly Dependency Discoverer v1.6.0
+
+Metadata:
+	- WebAssembly file: stdin-hello.wasm (SHA-256: d9bfa9030e5c489d1daac9e70699020caf59ac244d2db84205be28a62d4ea63b)
+	- Created: 2026-10-22 11:51:27.977039 (CEST)
+
+WebAssembly total instructions:8245
+
+Extended WebAssembly instruction(s) (i.e. not in core spec v1.0 MVP) (nb: 1):
+ref.func:4
+
+Available extended WebAssembly instruction(s) (nb: 0):
+
+Missing extended WebAssembly instruction(s)  (nb: 1):
+ref.func:4
+
+Unsupported WebAssembly feature(s) (nb: 0):
+
+WebAssembly imported function(s) list (nb: 5):
+module: wasi_snapshot_preview1, name: proc_exit, FunctionType(params: [I32], results: [])
+module: wasi_snapshot_preview1, name: fd_seek, FunctionType(params: [I32], [I64], [I32], [I32], results: [I32])
+module: wasi_snapshot_preview1, name: fd_write, FunctionType(params: [I32], [I32], [I32], [I32], results: [I32])
+module: wasi_snapshot_preview1, name: fd_read, FunctionType(params: [I32], [I32], [I32], [I32], results: [I32])
+module: wasi_snapshot_preview1, name: fd_close, FunctionType(params: [I32], results: [I32])
+
+WebAssembly code section function(s) list (nb: 44, total size: 16810 bytes):
+func[5] size=2 <__wasm_call_ctors>
+func[6] size=41 <_start>
+func[7] size=256 <__original_main>
+func[8] size=2 <dummy>
+func[9] size=14 <__wasm_call_dtors>
+func[10] size=4 <abort>
+func[11] size=86 <__assert_fail>
+func[12] size=100 <__lseek>
+func[13] size=17 <__stdio_seek>
+func[14] size=360 <fflush>
+func[15] size=8 <__ofl_lock>
+func[16] size=2 <__ofl_unlock>
+func[17] size=113 <writev>
+func[18] size=321 <__stdio_write>
+func[19] size=387 <__stdio_exit>
+func[20] size=92 <__towrite>
+func[21] size=244 <__fwritex>
+func[22] size=289 <fwrite>
+func[23] size=85 <strerror>
+func[24] size=36 <fputs>
+func[25] size=403 <vfprintf>
+func[26] size=9440 <printf_core>
+func[27] size=563 <pop_arg>
+func[28] size=28 <long_double_not_supported>
+func[29] size=55 <fprintf>
+func[30] size=113 <readv>
+func[31] size=112 <read>
+func[32] size=252 <__stdio_read>
+func[33] size=33 <close>
+func[34] size=13 <__stdio_close>
+func[35] size=133 <__toread>
+func[36] size=84 <__uflow>
+func[37] size=313 <fgets>
+func[38] size=103 <strcmp>
+func[39] size=26 <strnlen>
+func[40] size=1363 <memcpy>
+func[41] size=380 <memset>
+func[42] size=180 <strlen>
+func[43] size=264 <memchr>
+func[44] size=4 <dummy>
+func[45] size=12 <__lctrans>
+func[46] size=24 <wctomb>
+func[47] size=310 <wcrtomb>
+func[48] size=143 <frexp>
+
+WebAssembly data section(s) list (nb: 2, total size: 2785 bytes):
+segment[0] memory=0 size=2549 - init i32=1024
+segment[1] memory=0 size=236 - init i32=3576

@@ -1,0 +1,53 @@
+# Python
+#
+# Copyright 2024-2026 MicroEJ Corp. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be found with this software.
+# Build: 7E4D1F7C
+
+[build-system]
+requires = ["setuptools>=64.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "microej_webassembly_dependencies_discoverer"
+version = "1.6.0"
+authors = [
+  { name="MicroEJ Development Team" },
+]
+description = "Get MicroEJ WebAssembly dependencies information"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies", "optional-dependencies"]
+
+[project.scripts]
+microejwdd = "microej.webassemblydependencydiscoverer.__main__:run"
+
+[project.urls]
+Homepage = "https://github.com/MicroEJ/Tool-ApiDependencyDiscoverer/tree/master/webassembly"
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
+optional-dependencies = {dev = {file = "requirements-dev.txt"}}
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages]
+find = {exclude = ["tests"]}
+
+[tool.pytest.ini_options]
+pythonpath = "microej"
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.black] 
+line-length = 99
+
+[tool.flake8]
+exclude = [".git","__pycache__","docs/source/conf.py","old","build","dist"]
+max-line-length = 99

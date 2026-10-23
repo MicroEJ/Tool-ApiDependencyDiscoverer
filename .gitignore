@@ -6,3 +6,8 @@ microej-4.0-repository/
 microej-*-repository
 target~
 graalvm-ce-java8-windows-amd64-21.2.0.zip
+__pycache__
+dist
+*.egg-info
+.venv
+.coverage
